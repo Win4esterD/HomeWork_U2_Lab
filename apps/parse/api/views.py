@@ -30,7 +30,7 @@ class MangaViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
         manga = Manga.objects.filter(pk=pk).parse_values(*MANGA_FIELDS)[0]
         try:
             criterea = manga["updated_detail"]
-            if not criterea or needs_update(criterea):
+            if criterea and needs_update(criterea):
                 run_parser(DETAIL_PARSER, "readmanga", manga["source_url"])
                 run_parser(CHAPTER_PARSER, "readmanga", manga["source_url"])
                 now = datetime.now()
@@ -78,4 +78,3 @@ class MangaViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
         return get_fast_response(
             list(manga.chapters.order_by("-volume", "-number").values(*CHAPTER_FIELDS))
         )
-
