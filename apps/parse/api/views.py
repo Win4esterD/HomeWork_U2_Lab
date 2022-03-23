@@ -53,7 +53,6 @@ class MangaViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
             request,
             values=MANGA_FIELDS,
         )
-
         if page is not None:
             return self.paginator.get_paginated_response(page)
 
@@ -79,3 +78,4 @@ class MangaViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
         return get_fast_response(
             list(manga.chapters.order_by("-volume", "-number").values(*CHAPTER_FIELDS))
         )
+
